@@ -35,13 +35,13 @@ fun main() {
     part2(input).println()
 }
 
-private fun String.allIndexOf(text: String) = sequence<Int> {
-    var startIndex = 0
-    do {
-        val index = this@allIndexOf.indexOf(text, startIndex)
-        if (index >= 0) yield(index)
-        startIndex = index + 1
-    } while (index >= 0)
+private fun String.allIndexOf(keyword: String, startIndex: Int = 0): Sequence<Int> {
+    val index = this@allIndexOf.indexOf(keyword, startIndex)
+    return if (index < 0) {
+        sequenceOf(index)
+    } else {
+        sequenceOf(index) + allIndexOf(keyword, index + 1)
+    }
 }
 
 private val digits =
